@@ -1,7 +1,9 @@
 import { Controller, Get, Param, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { TimezonesService } from './timezones.service';
 
 @Controller('timezones')
 export class TimezonesController {
+    constructor(private readonly timezonesService: TimezonesService) {}
     @Get()
     @HttpCode(HttpStatus.FORBIDDEN)
     home() {
