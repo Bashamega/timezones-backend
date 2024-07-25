@@ -1,14 +1,10 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('tasks-db')
-export class Task {
-  @PrimaryColumn()
-  userID: number;
+@Entity()
+export class Timezone {
+  @PrimaryGeneratedColumn()
+  discordUserID: number;
+
+  @Column()
   timezone: string;
-
-  constructor(userId: number, timezones: string) {
-    this.userID = userId;
-    this.timezone = timezones;
-
-  }
 }

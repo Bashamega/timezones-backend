@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TimezonesController } from './timezones/timezones.controller';
 import { TimezonesService } from './timezones/timezones.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TimezonesModule } from './timezones/timezones.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -15,7 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     database: 'postgres',
     autoLoadEntities: true,
     synchronize: true,
-  })],
+  }), TimezonesModule],
   controllers: [AppController, TimezonesController],
   providers: [AppService, TimezonesService],
 })

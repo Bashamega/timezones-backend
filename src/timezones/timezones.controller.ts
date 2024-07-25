@@ -1,35 +1,31 @@
-import { Controller, Get, Param, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param } from '@nestjs/common';
 import { TimezonesService } from './timezones.service';
+import { Timezone } from './entities/timezones.entity';
 
 @Controller('timezones')
 export class TimezonesController {
-    constructor(private readonly timezonesService: TimezonesService) {}
-    @Get()
-    @HttpCode(HttpStatus.FORBIDDEN)
-    home() {
-        return "Nothing to see here"
-    }
+  constructor(private readonly timezonesService: TimezonesService) {}
 
-    @Get(':userId')
-    findTimeZone(@Param('userId') dcUserId: string) {
-        return(
-            {
-                userId: dcUserId,
-                timeZone: ""
-            }
-        )
-    }
+  @Post()
+  create(@Body() timezone: Timezone): Promise<Timezone> {
+    return this.timezonesService.create(timezone);
+  }
 
-    @Post(':userId')
-    registerTimezone(@Param('userId') dcUserId: number, @Body() body:{timezone:string}){
-        if(body.timezone){
-            return({
-                userId:dcUserId,
-                message: "Added",
-                tiemzone: body.timezone
-            })
-        }else{
-            return;
-        }
-    }
+  @Get()
+  findAll(): Promise<Timezone[]> {
+    return this.timezonesService.findAll();
+  }
+
+  @Get(':discordUserID')
+  findOne(@Param('discordUserID') discordUserID: number): Promise<Timezone> {
+    return this.timezonesService.findOne(discordUserID);
+  }
+
+  @Put(':discordUserID')
+  update(
+    @Param('discordUserID') discordUserID: number,
+    @Body() updateTimezoneDto: Partial<Timezone>,
+  ): Promise<Timezone> {
+    return this.timezonesService.update(discordUserID, updateTimezoneDto);
+  }
 }
