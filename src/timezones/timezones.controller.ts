@@ -1,8 +1,9 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 
 @Controller('timezones')
 export class TimezonesController {
     @Get()
+    @HttpCode(HttpStatus.FORBIDDEN)
     home() {
         return "Nothing to see here"
     }
@@ -19,10 +20,14 @@ export class TimezonesController {
 
     @Post(':userId')
     registerTimezone(@Param('userId') dcUserId: number, @Body() body:{timezone:string}){
-        return({
-            userId:dcUserId,
-            message: "Added",
-            tiemzone: body.timezone
-        })
+        if(body.timezone){
+            return({
+                userId:dcUserId,
+                message: "Added",
+                tiemzone: body.timezone
+            })
+        }else{
+            return;
+        }
     }
 }
